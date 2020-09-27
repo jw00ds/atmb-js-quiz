@@ -27,7 +27,7 @@ console.log(`Q1 Ans (using JS methods w/ "provided string"): ${reverseProvidedSt
 // 2. Write a function that factorializes a number. So, if given 5, the function returns 120 (1 * 2 * 3 * 4 * 5).
 
 // Using a while loop:
-function factorialize(no) {
+function factorialize(no) { // There is no while loop - AB
     let factorialCalcStorageVar = no;
     if (no < 0) {
         return -1;
@@ -113,7 +113,7 @@ console.log(`Q4 Ans (exe w/ array [[5, 67, 12, 4], [33, 987, 12, 88], [90, 91, 2
 // 5. Write a function that handles two parameters. The first parameter is a string, and the second is also a string. This function should check if the first string ends with the second string. Given `"Bastian"` and `"n"`, return `true`.
 
 function stringEndReconciler(string1, string2) {
-    if (string1.slice(-1) === string2.slice(-1)) {
+    if (string1.slice(-1) === string2.slice(-1)) { // This works for the provided example, but what if string2.length > 1?
         return "true";
     } else {
         return "false";
@@ -124,7 +124,7 @@ console.log(`Q5 Ans (exe w/ strings "Bastian" & "n"): ${stringEndReconciler("Bas
 
 // 6. Write a function that repeats a string 'n' number of times.
 
-function stringRepeater(string, n) {
+function stringRepeater(string, n) { // What if n < 0?
     return string.repeat(n);
 }
 
