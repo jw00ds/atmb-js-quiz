@@ -1,175 +1,143 @@
 
+// Bundy JS Quiz 2
 
-// Set up shape-creation buttons
-$("input#sq-btn").click(function () {
-    // console.log("Oh, Johnny, I apologize; I forgot you were there");
-    new Square($("input#sq-ipt").val());
-    // $("#tri-ipt").val("");
-});
-$("input#rec-btn").click(function () {
-    new Rectangle($("input#rec-hgt-ipt").val(), $("input#rec-w-ipt").val());
-    // $("#rec-hgt-ipt").val("");
-    // $("#rec-w-ipt").val("");
-});
-$("input#cir-btn").click(function () {
-    new Circle($("input#cir-ipt").val());
-    // $("#tri-ipt").val("");
-});
-$("input#tri-btn").click(function () {
-    new Triangle($("input#tri-ipt").val());
-    // $("#tri-ipt").val("");
-});
+// 1. Write a function that returns a reversed version of a provided string.
 
-
-//Set up info bar
-$("#info-side-panel").append(`<div id="info-side-panel-shpNm-div"><span>Shape:  </span><span id="info-side-panel-shpNm-span"></span></div>`);
-$("#info-side-panel").append(`<div id="info-side-panel-w-div"><span>Width:  </span><span id="info-side-panel-w-span"></span></div>`);
-$("#info-side-panel").append(`<div id="info-side-panel-hgt-div"><span>Height:  </span><span id="info-side-panel-hgt-span"></span></div>`);
-$("#info-side-panel").append(`<div id="info-side-panel-rad-div"><span>Radius:  </span><span id="info-side-panel-rad-span"></span></div>`);
-$("#info-side-panel").append(`<div id="info-side-panel-area-div"><span>Area:  </span><span id="info-side-panel-area-span"></span></div>`);
-$("#info-side-panel").append(`<div id="info-side-panel-perim-div"><span>Perimeter:  </span><span id="info-side-panel-perim-span"></span></div>`);
-
-
-
-// Define shapes
-
-// Parent
-class Shape {
-    constructor(hgt, w) {
-        this.hgt = Math.round(Number(hgt));
-        this.w = Math.round(Number(w));
-        this.div = $(`<div class="shape">`);
-        // this.div.dblclick(function () { console.log("You're a daisy if you do") });
-        this.div.dblclick(() => this.remove());
-    }
-    remove() {
-        this.div.remove();
-        $(".side-pan-content").empty();
-    }
+// Leveraging predefined JS methods:
+function reverseProvidedStringApproach1(providedString) {
+    let stringArr = providedString.split("");
+    let stringArrReversal = stringArr.reverse();
+    let stringArrReversalJoined = stringArrReversal.join("");
+    return stringArrReversalJoined;
 }
 
-// Children
-class Square extends Shape {
-    constructor(hgt) {
-        super(hgt, hgt);
-        this.div.addClass("square");
-        this.div.css("width", `${hgt}px`); // Why can't these be moved into the parent? I tried to do that way; didn't work.
-        this.div.css("height", `${hgt}px`); // I tried shorthand here with space; it didn't work
-        this.place(); // Why does it not work when I call this method in the parent? (I.e. can methods be inherited and run from a parent?) It didn't work till I put the immediately invoked method into the child here.
-        this.div.click(() => this.describe());
-    }
-    place() {
-        $("div#shape-canvas").append(this.div);
-        this.div.css("left", `${Math.floor(Math.random() * (600 - this.w))}px`);
-        this.div.css("top", `${Math.floor(Math.random() * (600 - this.hgt))}px`);
-    }
-    describe() {
-        $("#info-side-panel-shpNm-span").text("Square").addClass("side-pan-content");
-        $("#info-side-panel-w-span").text(`${this.hgt}px`).addClass("side-pan-content");
-        $("#info-side-panel-hgt-span").text(`${this.hgt}px`).addClass("side-pan-content");
-        $("#info-side-panel-rad-span").text("N/A").addClass("side-pan-content");
-        $("#info-side-panel-area-span").text(`${Math.pow(this.hgt, 2)}px`).addClass("side-pan-content");
-        $("#info-side-panel-perim-span").text(`${this.hgt * 4}px`).addClass("side-pan-content");
-    }
-}
-class Rectangle extends Shape {
-    constructor(hgt, w) {
-        super(hgt, w);
-        this.div.addClass("rectangle");
-        this.div.css("width", `${w}px`);
-        this.div.css("height", `${hgt}px`);
-        this.place();
-        this.div.click(() => this.describe());
-    }
-    place() {
-        $("div#shape-canvas").append(this.div);
-        this.div.css("left", `${Math.floor(Math.random() * (600 - this.w))}px`);
-        this.div.css("top", `${Math.floor(Math.random() * (600 - this.hgt))}px`);
-    }
-    describe() {
-        $("#info-side-panel-shpNm-span").text("Rectangle").addClass("side-pan-content");
-        $("#info-side-panel-w-span").text(`${this.w}px`).addClass("side-pan-content");
-        $("#info-side-panel-hgt-span").text(`${this.hgt}px`).addClass("side-pan-content");
-        $("#info-side-panel-rad-span").text("N/A").addClass("side-pan-content");
-        $("#info-side-panel-area-span").text(`${this.hgt * this.w}px`).addClass("side-pan-content");
-        $("#info-side-panel-perim-span").text(`${(this.hgt * 2) + (this.w * 2)}px`).addClass("side-pan-content");
-    }
-}
-class Circle extends Shape {
-    constructor(rad) {
-        super(rad, rad);
-        this.rad = Math.round(Number(rad));
-        this.div.addClass("circle");
-        this.div.css("width", `${rad * 2}px`);
-        this.div.css("height", `${rad * 2}px`);
-        this.place();
-        this.div.click(() => this.describe());
-    }
-    place() {
-        $("div#shape-canvas").append(this.div);
-        this.div.css("left", `${Math.floor(Math.random() * (600 - (this.rad * 2)))}px`);
-        this.div.css("top", `${Math.floor(Math.random() * (600 - (this.rad * 2)))}px`);
-    }
-    describe() {
-        $("#info-side-panel-shpNm-span").text("Circle").addClass("side-pan-content");
-        $("#info-side-panel-w-span").text(`${this.rad * 2}px`).addClass("side-pan-content");
-        $("#info-side-panel-hgt-span").text(`${this.rad * 2}px`).addClass("side-pan-content");
-        $("#info-side-panel-rad-span").text(`${this.rad}px`).addClass("side-pan-content");
-        $("#info-side-panel-area-span").text(`${Math.round(Math.pow(this.rad, 2) * Math.PI)}px`).addClass("side-pan-content");
-        $("#info-side-panel-perim-span").text(`${Math.round((this.rad * 2) * Math.PI)}px`).addClass("side-pan-content");
-    }
-}
-class Triangle extends Shape {
-    constructor(sdLen) {
-        super(sdLen, sdLen);
-        this.sdLen = Math.round(Number(sdLen));
-        this.div.addClass("triangle");
-        this.div.css("border-top", `${sdLen}px solid rgba(255, 255, 0, 0.486)`);
-        this.div.css("border-left", `${sdLen}px solid transparent`);
-        this.place();
-        this.div.click(() => this.describe());
-    }
-    place() {
-        $("div#shape-canvas").append(this.div);
-        this.div.css("left", `${Math.floor(Math.random() * (600 - this.sdLen))}px`);
-        this.div.css("top", `${Math.floor(Math.random() * (600 - this.sdLen))}px`);
-    }
-    describe() {
-        $("#info-side-panel-shpNm-span").text("Triangle").addClass("side-pan-content");
-        $("#info-side-panel-w-span").text(`${this.sdLen}px`).addClass("side-pan-content");
-        $("#info-side-panel-hgt-span").text(`${this.sdLen}px`).addClass("side-pan-content");
-        $("#info-side-panel-rad-span").text("N/A").addClass("side-pan-content");
-        $("#info-side-panel-area-span").text(`${Math.round(Math.pow(this.sdLen, 2))}px`).addClass("side-pan-content");
-        $("#info-side-panel-perim-span").text(`${Math.round((2 * this.sdLen) + (Math.sqrt(2) * this.sdLen))}px`).addClass("side-pan-content");
-    }
-}
+console.log(`Q1 Ans (using JS methods w/ "provided string"): ${reverseProvidedStringApproach1("provided string")}`);
 
-Using a while loop:
+// Using a for loop:
+// function reverseProvidedStringApproach2(providedString) {
+//     let reversedString = "";
+//     for (let i = providedString.length - 1; i >= 0; i--) {
+//         reversedString += providedString[i];
+//     }
+//     return reversedString;
+// }
+
+// console.log(`Q1 Ans (using for loop w/ "provided string"): ${reverseProvidedStringApproach2("provided string")}`);
+
+// 2. Write a function that factorializes a number. So, if given 5, the function returns 120 (1 * 2 * 3 * 4 * 5).
+
+// Using a while loop:
 function factorialize(no) {
     let factorialCalcStorageVar = no;
     if (no < 0) {
         return -1;
-    }
-    else if (no === 0 || no === 1) {
+    } else if (no === 0 || no === 1) {
         return 1;
-    }
-    else while (no > 1) {
+    } else while (no > 1) {
         no--;
-        factorial *= no;
+        factorialCalcStorageVar *= no;
     }
     return factorialCalcStorageVar;
 }
 
-Using a for loop (seems an easier / more intuitive way to me):
-function factorialize(no) {
-    if (no < 0) {
-        return -1;
+console.log(`Q2 Ans (using while loop to compute factorial of no. 5): ${factorialize(5)}`);
+
+// Using a for loop (seems an easier / more intuitive way to me):
+// function factorialize(no) {
+//     if (no < 0) {
+//         return -1;
+//     } else if (no === 0 || no === 1) {
+//         return 1;
+//     } else for (var i = no - 1; i >= 1; i--) {
+//         no *= i;
+//     }
+//     return no;
+// }
+
+// console.log(`Q2 Ans (using for loop to compute factorial of no. 5): ${factorialize(5)}`);
+
+// 3. Write a function that returns the longest word of a sentence.
+
+function maxLenWord(sentence) {
+    let sentenceWordsArr = sentence.split(" ");
+    let longestWordLength = 0;
+    let longestWord = "";
+    for (let i = 0; i < sentenceWordsArr.length; i++) {
+        if (sentenceWordsArr[i].length > longestWordLength) {
+            longestWordLength = sentenceWordsArr[i].length;
+            longestWord = sentenceWordsArr[i];
+        }
     }
-    else if (no === 0 || no === 1) {
-        return 1;
+    return longestWord;
+}
+
+console.log(`Q3 Ans (exe w/ string "This is a sentence."): ${maxLenWord("This is a sentence.")}`);
+
+// 4. Write a function that returns the largest number of an array of numbers. Then, rewrite to return the largest number of the nested arrays. So, `[[5, 67, 12, 4], [33, 987, 12, 88], [90, 91, 22, 99], [1000, 387, 467, 432]]` returns `[67, 987, 99, 1000]`.
+
+// function max(arr) {
+//     let array = arr;
+//     let maxNo = 0;
+//     for (let element of array) {
+//         if (element > maxNo) {
+//             maxNo = element;
+//         }
+//     }
+//     return maxNo;
+// }
+
+// console.log(`Q4 Ans (exe w/ array [1, 2, 3]): ${max([1, 2, 3])}`);
+
+function returnArrOfMaxesFromNestedArrs(arrOfArrs) {
+    let maxNoStorageArr = [];
+    for (let i = 0; i < arrOfArrs.length; i++) {
+        let maxNo = 0;
+        for (let j = 0; j < arrOfArrs[i].length; j++) {
+            if (arrOfArrs[i][j] > maxNo) {
+                maxNo = arrOfArrs[i][j];
+                // maxNoStorageArr.push(Math.max(j));
+            }
+            // elementOfParent.forEach(elementOfChild => {
+            // let maxNo = 0;
+            // if (element > maxNo) {
+            //     maxNo = elementOfChild;
+            // });
+        }
+        maxNoStorageArr.push(maxNo);
     }
-    else for (var i = no - 1; i >= 1; i--) {
-      no *= i;
+    return maxNoStorageArr;
+}
+
+console.log(`Q4 Ans (exe w/ array [[5, 67, 12, 4], [33, 987, 12, 88], [90, 91, 22, 99], [1000, 387, 467, 432]]): ${returnArrOfMaxesFromNestedArrs([[5, 67, 12, 4], [33, 987, 12, 88], [90, 91, 22, 99], [1000, 387, 467, 432]])}`);
+
+// 5. Write a function that handles two parameters. The first parameter is a string, and the second is also a string. This function should check if the first string ends with the second string. Given `"Bastian"` and `"n"`, return `true`.
+
+function stringEndReconciler(string1, string2) {
+    if (string1.slice(-1) === string2.slice(-1)) {
+        return "true";
+    } else {
+        return "false";
     }
-    return no;
-  }
+}
+
+console.log(`Q5 Ans (exe w/ strings "Bastian" & "n"): ${stringEndReconciler("Bastian", "n")}`);
+
+// 6. Write a function that repeats a string 'n' number of times.
+
+function stringRepeater(string, n) {
+    return string.repeat(n);
+}
+
+console.log(`Q6 Ans (exe w/ string "Please repeat me" & 7): ${stringRepeater("Please repeat me", 7)}`);
+
+// 7. Write a function that truncates a string if it is longer than a provided number. If the string is truncated, end the string with '...'.
+
+function stringTruncater(string, charCutoff) {
+    if (string.length > charCutoff) {
+        return string.substring(0, charCutoff) + "...";
+    } else {
+        return string;
+    }
+};
+
+console.log(`Q7 Ans (exe w/ string "Truncate" & 3): ${stringTruncater("Truncate", 3)}`);
