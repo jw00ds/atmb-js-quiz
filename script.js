@@ -31,12 +31,14 @@ function factorialize(no) {
     let factorialCalcStorageVar = no;
     if (no < 0) {
         return -1;
-    } else if (no === 0 || no === 1) {
-        return 1;
-    } else while (no > 1) {
-        no--;
-        factorialCalcStorageVar *= no;
-    }
+    } else
+        if (no === 0 || no === 1) {
+            return 1;
+        } else
+            while (no > 1) {
+                no--;
+                factorialCalcStorageVar *= no;
+            }
     return factorialCalcStorageVar;
 }
 
@@ -113,7 +115,8 @@ console.log(`Q4 Ans (exe w/ array [[5, 67, 12, 4], [33, 987, 12, 88], [90, 91, 2
 // 5. Write a function that handles two parameters. The first parameter is a string, and the second is also a string. This function should check if the first string ends with the second string. Given `"Bastian"` and `"n"`, return `true`.
 
 function stringEndReconciler(string1, string2) {
-    if (string1.slice(-1) === string2.slice(-1)) {
+    let n = string1.length > string2.length ? string2.length : string1.length;
+    if (string1.slice(-n) === string2.slice(-n)) {
         return "true";
     } else {
         return "false";
@@ -125,7 +128,9 @@ console.log(`Q5 Ans (exe w/ strings "Bastian" & "n"): ${stringEndReconciler("Bas
 // 6. Write a function that repeats a string 'n' number of times.
 
 function stringRepeater(string, n) {
-    return string.repeat(n);
+    if (n > 0) {
+        return string.repeat(n);
+    }
 }
 
 console.log(`Q6 Ans (exe w/ string "Please repeat me" & 7): ${stringRepeater("Please repeat me", 7)}`);
