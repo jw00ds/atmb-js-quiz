@@ -31,14 +31,14 @@ function factorialize(no) {
     let factorialCalcStorageVar = no;
     if (no < 0) {
         return -1;
-    } else
-        if (no === 0 || no === 1) {
-            return 1;
-        } else
-            while (no > 1) {
-                no--;
-                factorialCalcStorageVar *= no;
-            }
+    } else if (no === 0 || no === 1) {
+        return 1;
+    } else {
+        while (no > 1) {
+            no--;
+            factorialCalcStorageVar *= no;
+        }
+    }
     return factorialCalcStorageVar;
 }
 
